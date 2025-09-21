@@ -1,0 +1,12 @@
+#include<iostream>
+using namespace std;
+int main(){
+    int arr[5]={1,3,56,0,7};
+    int min=arr[0];
+    for(int i=1;i<=4;i++){
+        if(arr[i]<min)
+        min=arr[i];
+    }
+    cout<<min;
+    return 0;
+}

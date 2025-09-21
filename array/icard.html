@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>College ID Card</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+    }
+    .id-card {
+      width: 600px;
+      height: 380px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 15px;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+      background: #fff;
+    }
+    /* ---------- FRONT SIDE ---------- */
+    .front {
+      position: relative;
+      height: 100%;
+      border: 1px solid #aaa;
+    }
+    .header {
+      background: #6a2c2c;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+    .header img {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      width: 60px;
+    }
+    .header h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+    .header h3 {
+      margin: 3px 0;
+      font-size: 16px;
+    }
+    .details {
+      display: flex;
+      padding: 10px 20px;
+    }
+    .photo {
+      flex: 1;
+      text-align: center;
+    }
+    .photo img {
+      width: 120px;
+      height: 140px;
+      border: 2px solid black;
+    }
+    .info {
+      flex: 2;
+      font-size: 15px;
+      line-height: 1.8;
+      padding-left: 15px;
+    }
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 20px;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+    .footer div {
+      text-align: center;
+      flex: 1;
+    }
+    .footer img {
+      height: 35px;
+      display: block;
+      margin: 2px auto;
+    }
+    /* ---------- BACK SIDE ---------- */
+    .back {
+      position: relative;
+      height: 100%;
+      border: 1px solid #aaa;
+      padding: 15px 20px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .valid-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 5px;
+    }
+    .valid-table, .valid-table th, .valid-table td {
+      border: 1px solid black;
+    }
+    .valid-table th, .valid-table td {
+      text-align: center;
+      padding: 6px;
+    }
+    .instructions {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- FRONT SIDE -->
+  <div class="id-card front">
+    <div class="header">
+      <img src="logo.png" alt="College Logo">
+      <h2>मैत्रेयी महाविद्यालय<br>MAITREYI COLLEGE</h2>
+      <h3>चानक्यपुरी, नई दिल्ली - 110021</h3>
+    </div>
+    <div class="details">
+      <div class="photo">
+        <img src="student.jpg" alt="Student Photo">
+        <p style="font-size: 12px; margin-top: 3px;">Student</p>
+      </div>
+      <div class="info">
+        <p><b>Roll No. :</b> 2024/1562</p>
+        <p><b>Name :</b> Vanshika Goyal</p>
+        <p><b>Father’s Name :</b> Rajiv Goyal</p>
+        <p><b>Mother’s Name :</b> Nikita Goyal</p>
+        <p><b>D.O.B :</b> 22-05-2006</p>
+        <p><b>Course :</b> B.A Program (English + Economics)</p>
+        <p><b>Session :</b> 2024-2025</p>
+      </div>
+    </div>
+    <div class="footer">
+      <div>
+        Student Signature
+        <img src="sign-student.png" alt="Student Signature">
+      </div>
+      <div>
+        Administrative Officer
+        <img src="sign-admin.png" alt="Admin Signature">
+      </div>
+      <div>
+        Principal
+        <img src="sign-principal.png" alt="Principal Signature">
+      </div>
+    </div>
+  </div>
+
+  <!-- BACK SIDE -->
+  <div class="id-card back">
+    <h3>Valid for Session</h3>
+    <table class="valid-table">
+      <tr>
+        <th>Session</th>
+        <th>Year</th>
+        <th>Signature</th>
+      </tr>
+      <tr>
+        <td>2025-26</td>
+        <td>II</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026-27</td>
+        <td>III</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2027-28</td>
+        <td>IV</td>
+        <td></td>
+      </tr>
+    </table>
+
+    <p><b>पता/Address :</b> 13 Vivekanand Puri Sarai Rohilla</p>
+    <p><b>Mobile No :</b> 9968006008</p>
+
+    <div class="instructions">
+      <b>निर्देश/Instructions:</b>
+      <ol>
+        <li>Student must carry this card at all time.</li>
+        <li>This card NOT TRANSFERABLE and must be produced whenever demanded.</li>
+        <li>In case this I-Card lost the holder of this card must inform the college immediately in writing along with a copy of F.I.R.</li>
+        <li>Duplicate I-Card will be issued on payment of Rs. 100/-</li>
+      </ol>
+    </div>
+  </div>
+
+</body>
+</html>

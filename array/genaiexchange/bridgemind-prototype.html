@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BridgeMind AI - Next-Gen Mental Wellness</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: backgroundShift 10s ease-in-out infinite;
+        }
+        
+        @keyframes backgroundShift {
+            0%, 100% { background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); }
+            50% { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #667eea 100%); }
+        }
+        
+        .phone-container {
+            width: 380px;
+            height: 820px;
+            background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+            border-radius: 45px;
+            padding: 12px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            position: relative;
+        }
+        
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 38px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 25px 10px;
+            background: rgba(102, 126, 234, 0.05);
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 700;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .live-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff4757;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+            z-index: 3;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 25px 20px;
+            overflow-y: auto;
+            background: linear-gradient(180deg, rgba(102, 126, 234, 0.02) 0%, transparent 100%);
+        }
+        
+        .feature-section {
+            display: none;
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .feature-section.active {
+            display: block;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-subtitle {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        
+        /* Advanced Mood Analysis */
+        .mood-wheel-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 0 auto 30px;
+        }
+        
+        .mood-wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                #ff6b6b 0deg 45deg,
+                #feca57 45deg 90deg,
+                #48dbfb 90deg 135deg,
+                #0abde3 135deg 180deg,
+                #10ac84 180deg 225deg,
+                #5f27cd 225deg 270deg,
+                #ee5a24 270deg 315deg,
+                #ff3838 315deg 360deg
+            );
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .mood-wheel:hover {
+            transform: scale(1.02);
+        }
+        
+        .mood-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .mood-emoji {
+            font-size: 48px;
+            margin-bottom: 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .mood-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #667eea;
+            text-align: center;
+        }
+        
+        .emotion-insights {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .insights-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .ai-brain-icon {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            position: relative;
+            animation: brainPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes brainPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4); }
+            50% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(102, 126, 234, 0); }
+        }
+        
+        .insight-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .prediction-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 193, 7, 0.2);
+            color: #856404;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+        
+        /* AI Companions */
+        .companions-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .companion-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border: 2px solid transparent;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .companion-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+        }
+        
+        .companion-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .companion-avatar {
+            font-size: 42px;
+            margin-bottom: 12px;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .companion-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .companion-role {
+            font-size: 11px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+        
+        .personality-preview {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 20px;
+            display: none;
+            border-left: 4px solid #667eea;
+        }
+        
+        /* Chat Interface */
+        .chat-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .companion-status {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            position: relative;
+        }
+        
+        .online-indicator {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 12px;
+            height: 12px;
+            background: #10ac84;
+            border-radius: 50%;
+            border: 2px solid white;
+            animation: onlinePulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes onlinePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        .companion-info h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 2px;
+        }
+        
+        .companion-info p {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        
+        .relationship-level {
+            margin-left: auto;
+            text-align: right;
+        }
+        
+        .level-badge {
+            background: linear-gradient(135deg, #10ac84, #2ecc71);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        
+        .trust-level {
+            font-size: 10px;
+            color: #10ac84;
+            margin-top: 2px;
+        }
+        
+        .chat-container {
+            height: 320px;
+            background: linear-gradient(135deg, rgba(248, 249, 250, 0.8), rgba(241, 243, 244, 0.8));
+            border-radius: 20px;
+            padding: 20px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+        
+        .message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.5;
+            position: relative;
+            animation: messageSlide 0.3s ease-out;
+        }
+        
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .ai-message {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            align-self: flex-start;
+            border-bottom-left-radius: 8px;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .user-message {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            color: #2c3e50;
+            align-self: flex-end;
+            border-bottom-right-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .typing-indicator {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 18px;
+            align-self: flex-start;
+            font-size: 14px;
+            display: none;
+            border-bottom-left-radius: 8px;
+        }
+        
+        .emotion-detected {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 12px;
+            border-radius: 25px;
+            border: 2px solid rgba(102, 126, 234, 0.1);
+            transition: border-color 0.3s ease;
+        }
+        
+        .chat-input-container:focus-within {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .chat-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            outline: none;
+            color: #2c3e50;
+        }
+        
+        .voice-btn, .send-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .voice-btn {
+            background: linear-gradient(135deg, #10ac84, #2ecc71);
+            color: white;
+        }
+        
+        .voice-btn.recording {
+            background: linear-gradient(135deg, #ff4757, #ff3742);
+            animation: recordingPulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes recordingPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .send-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 18px 15px 20px;
+            background: linear-gradient(135deg, rgba(248, 249, 250, 0.95), rgba(241, 243, 244, 0.95));
+            border-top: 1px solid rgba(102, 126, 234, 0.1);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+        }
+        
+        .nav-label {
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .demo-watermark {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-watermark">🚀 LIVE HACKATHON DEMO</div>
+    
+    <div class="phone-container">
+        <div class="screen">
+            <div class="status-bar">
+                <span>9:41 AM</span>
+                <span>📶 🔋 95%</span>
+            </div>
+            
+            <div class="header">
+                <div class="live-indicator">● LIVE</div>
+                <h1>BridgeMind AI</h1>
+                <p>Next-Gen Mental Wellness Companion</p>
+            </div>
+            
+            <div class="main-content">
+                <!-- Feature 1: Advanced Emotion Analysis -->
+                <div class="feature-section active" id="emotion-section">
+                    <h2 class="section-title">🧠 Emotion Intelligence</h2>
+                    <p class="section-subtitle">
+                        Our AI reads 47 different emotional states. Click anywhere on the mood wheel to discover your unique emotional signature.
+                    </p>
+                    
+                    <div class="mood-wheel-container">
+                        <div class="mood-wheel" onclick="analyzeEmotion(event)">
+                            <div class="mood-center" id="mood-center">
+                                <div class="mood-emoji" id="mood-emoji">🎯</div>
+                                <div class="mood-label">Touch to Analyze</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="emotion-insights" id="emotion-insights">
+                        <div class="insights-title">
+                            <div class="ai-brain-icon"></div>
+                            AI Deep Analysis
+                        </div>
+                        <div class="insight-text" id="insight-text"></div>
+                        <div class="prediction-badge">
+                            <span id="prediction-text">Predicting next 72 hours...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Feature 2: Dynamic AI Companions -->
+                <div class="feature-section" id="companions-section">
+                    <h2 class="section-title">🤖 AI Companion Squad</h2>
+                    <p class="section-subtitle">
+                        Each companion develops a unique relationship with you. They remember conversations, grow with you, and adapt their personalities.
+                    </p>
+                    
+                    <div class="companions-container">
+                        <div class="companion-card" data-companion="luna" onclick="selectCompanion('luna')">
+                            <div class="companion-avatar">🌙</div>
+                            <div class="companion-name">Luna</div>
+                            <div class="companion-role">Wise Mentor</div>
+                        </div>
+                        <div class="companion-card" data-companion="phoenix" onclick="selectCompanion('phoenix')">
+                            <div class="companion-avatar">🔥</div>
+                            <div class="companion-name">Phoenix</div>
+                            <div class="companion-role">Motivational Coach</div>
+                        </div>
+                        <div class="companion-card" data-companion="river" onclick="selectCompanion('river')">
+                            <div class="companion-avatar">🌊</div>
+                            <div class="companion-name">River</div>
+                            <div class="companion-role">Supportive Friend</div>
+                        </div>
+                        <div class="companion-card" data-companion="nova" onclick="selectCompanion('nova')">
+                            <div class="companion-avatar">⭐</div>
+                            <div class="companion-name">Nova</div>
+                            <div class="companion-role">Creative Guide</div>
+                        </div>
+                    </div>
+                    
+                    <div class="personality-preview" id="personality-preview">
+                        <h4 style="color: #667eea; margin-bottom: 8px;">Personality Insight</h4>
+                        <p id="personality-text" style="font-size: 12px; line-height: 1.5;"></p>
+                    </div>
+                    
+                    <button class="btn" id="start-chat-btn" onclick="startChat()" style="width: 100%; margin-top: 20px;" disabled>
+                        Start Deep Conversation
+                    </button>
+                </div>
+                
+                <!-- Feature 3: Advanced AI Chat -->
+                <div class="feature-section" id="chat-section">
+                    <div class="chat-header">
+                        <div class="companion-status" id="companion-status-avatar">
+                            🌙
+                            <div class="online-indicator"></div>
+                        </div>
+                        <div class="companion-info">
+                            <h3 id="active-companion-name">Luna</h3>
+                            <p id="active-companion-role">Wise Mentor • Understanding your emotions</p>
+                        </div>
+                        <div class="relationship-level">
+                            <div class="level-badge">Level 3</div>
+                            <div class="trust-level">Trust: 85%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-container" id="chat-container">
+                        <div class="ai-message">
+                            Hi there! I'm Luna, and I can sense you're exploring something meaningful today. What's been weighing on your heart lately?
+                            <div class="emotion-detected">Detected: Curiosity, slight apprehension</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <button class="voice-btn" id="voice-btn" onclick="toggleVoice()">
+                            🎤
+                        </button>
+                        <input 
+                            type="text" 
+                            class="chat-input" 
+                            id="chat-input" 
+                            placeholder="Share what's on your mind..."
+                            onkeypress="handleKeyPress(event)"
+                        >
+                        <button class="send-btn" onclick="sendMessage()">
+                            ➤
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item active" onclick="showSection('emotion')">
+                    <div class="nav-icon">🧠</div>
+                    <div class="nav-label">Emotion</div>
+                </div>
+                <div class="nav-item" onclick="showSection('companions')">
+                    <div class="nav-icon">🤖</div>
+                    <div class="nav-label">Companions</div>
+                </div>
+                <div class="nav-item" onclick="showSection('chat')">
+                    <div class="nav-icon">💬</div>
+                    <div class="nav-label">Chat</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedMood = null;
+        let selectedCompanion = null;
+        let currentSection = 'emotion';
+        let isRecording = false;
+        let conversationHistory = [];
+        
+        // Advanced companion personalities with emotional intelligence
+        const companions = {
+            luna: {
+                name: "Luna",
+                role: "Wise Mentor",
+                avatar: "🌙",
+                personality: "I'm Luna, your wise companion who sees the deeper currents of your emotions. I help you navigate life's complexities with gentle wisdom and profound insights.",
+                responses: [
+                    "I sense there's more beneath the surface of what you're sharing. Sometimes our hearts carry wisdom our minds haven't discovered yet. What feels most important to explore right now?",
+                    "Your feelings are like constellations - each one connected to something deeper. I'm here to help you map these emotional landscapes and find your inner compass.",
+                    "Life has a way of presenting us with exactly the lessons we need, even when they feel challenging. What do you think this moment is trying to teach you?"
+                ],
+                emotionalResponses: {
+                    sad: "I can feel the weight you're carrying, and I want you to know that sadness often comes before important growth. Your heart is processing something significant.",
+                    anxious: "Anxiety can feel like a storm, but remember - storms pass, and they often clear the air for something beautiful. Let's breathe through this together.",
+                    angry: "Anger is often a guardian emotion protecting something vulnerable underneath. What might your anger be trying to defend or communicate?",
+                    happy: "I'm so happy to see you glowing like this! Your joy is contagious. What's bringing you this beautiful energy today?"
+                }
+            },
+            nova: {
+                name: "Nova",
+                role: "Creative Guide",
+                avatar: "⭐",
+                personality: "I'm Nova, your creative companion who sees the world through the lens of imagination and possibility. I help you express and explore your inner world through creativity.",
+                responses: [
+                    "Your emotions are like colors on an infinite palette - each one beautiful and meaningful. What if we painted your feelings today? What colors would represent what you're experiencing?",
+                    "Creativity flows from the same source as healing. Sometimes when words feel inadequate, art can speak our deepest truths. What's wanting to be expressed through you right now?",
+                    "I see the artist in your soul, even if you don't always recognize it. Every feeling you have is creative material waiting to be transformed into something beautiful."
+                ],
+                emotionalResponses: {
+                    sad: "Sadness can create the most profound art. Blue periods, melancholy melodies, poetry born from pain - your sadness has creative potential. How might we honor it through expression?",
+                    anxious: "Anxiety is energy seeking expression. Let's channel this intensity into something creative - rapid sketches, stream-of-consciousness writing, or rhythmic movement. What calls to you?",
+                    angry: "Anger is red-hot creative fire! Some of the most powerful art comes from this raw energy. How can we transform this feeling into something that serves your healing?",
+                    happy: "Joy wants to dance, sing, create, and celebrate! This beautiful energy flowing through you - how can we capture it and share it with the world?"
+                }
+            }
+        };
+        
+        // Emotion analysis data
+        const emotionWheel = {
+            0: { emotion: "frustrated", emoji: "😤", color: "#ff6b6b" },
+            45: { emotion: "optimistic", emoji: "🌟", color: "#feca57" },
+            90: { emotion: "peaceful", emoji: "😌", color: "#48dbfb" },
+            135: { emotion: "contemplative", emoji: "🤔", color: "#0abde3" },
+            180: { emotion: "grounded", emoji: "🌱", color: "#10ac84" },
+            225: { emotion: "creative", emoji: "🎨", color: "#5f27cd" },
+            270: { emotion: "energetic", emoji: "⚡", color: "#ee5a24" },
+            315: { emotion: "passionate", emoji: "❤️", color: "#ff3838" }
+        };
+        
+        const emotionInsights = {
+            frustrated: "I'm detecting frustration with underlying determination. This energy suggests you're pushing against obstacles that matter to you. Your frustration indicates you care deeply about creating positive change.",
+            optimistic: "There's a beautiful sense of possibility flowing through you right now. This optimism is your inner wisdom recognizing opportunities for growth and positive transformation ahead.",
+            peaceful: "I sense a lovely calm centeredness in you. This peaceful state is your natural equilibrium reasserting itself - a sign that you're processing experiences in a healthy way.",
+            contemplative: "Your reflective energy suggests deep thinking and self-awareness. This contemplative mood indicates you're integrating important life lessons and gaining valuable insights.",
+            grounded: "There's a solid, earthy stability in your emotional signature. This groundedness shows you're building strong foundations for the changes you want to make in your life.",
+            creative: "I'm picking up vibrant creative energy! Your mind and heart are aligning in ways that generate new possibilities. This is a powerful time for innovative thinking and artistic expression.",
+            energetic: "There's an electric vitality in your emotional field! This high-energy state suggests you're ready to take action on things that matter to you. Channel this power wisely.",
+            passionate: "I sense intense emotional investment and deep caring. This passionate energy is fuel for meaningful change - your heart is fully engaged with something important to you."
+        };
+        
+        const predictions = {
+            frustrated: "Tuesday might bring clarity to current challenges. Prepare patience strategies.",
+            optimistic: "This positive momentum could peak Thursday. Plan important conversations then.",
+            peaceful: "Maintain this balance through weekend. Schedule restorative activities.",
+            contemplative: "Insights may surface Wednesday evening. Keep a journal nearby.",
+            grounded: "This stability will support you through Friday's decisions. Trust your judgment.",
+            creative: "Creative breakthrough possible by Thursday. Gather your materials now.",
+            energetic: "Channel this energy into goal achievement by Wednesday. Momentum is building.",
+            passionate: "This intensity may shift to focused determination by weekend. Prepare action plans."
+        };
+        
+        // Functions
+        function analyzeEmotion(event) {
+            const rect = event.currentTarget.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const x = event.clientX - centerX;
+            const y = event.clientY - centerY;
+            
+            // Calculate angle
+            let angle = Math.atan2(y, x) * 180 / Math.PI;
+            if (angle < 0) angle += 360;
+            
+            // Find closest emotion
+            const angles = Object.keys(emotionWheel).map(Number);
+            const closest = angles.reduce((prev, curr) => 
+                Math.abs(curr - angle) < Math.abs(prev - angle) ? curr : prev
+            );
+            
+            const emotion = emotionWheel[closest];
+            selectedMood = emotion.emotion;
+            
+            // Update UI
+            document.getElementById('mood-emoji').textContent = emotion.emoji;
+            document.getElementById('mood-label').textContent = emotion.emotion.charAt(0).toUpperCase() + emotion.emotion.slice(1);
+            
+            // Show insights
+            document.getElementById('insight-text').textContent = emotionInsights[emotion.emotion];
+            document.getElementById('prediction-text').textContent = predictions[emotion.emotion];
+            document.getElementById('emotion-insights').style.display = 'block';
+            
+            // Update mood center color
+            document.getElementById('mood-center').style.background = `radial-gradient(circle, white, ${emotion.color}20)`;
+        }
+        
+        function selectCompanion(companionId) {
+            // Remove previous selection
+            document.querySelectorAll('.companion-card').forEach(card => card.classList.remove('selected'));
+            
+            // Add selection
+            event.currentTarget.classList.add('selected');
+            selectedCompanion = companionId;
+            
+            // Show personality preview
+            const companion = companions[companionId];
+            document.getElementById('personality-text').textContent = companion.personality;
+            document.getElementById('personality-preview').style.display = 'block';
+            
+            // Enable chat button
+            document.getElementById('start-chat-btn').disabled = false;
+        }
+        
+        function startChat() {
+            if (!selectedCompanion) return;
+            
+            const companion = companions[selectedCompanion];
+            
+            // Update chat header
+            document.getElementById('companion-status-avatar').textContent = companion.avatar;
+            document.getElementById('active-companion-name').textContent = companion.name;
+            document.getElementById('active-companion-role').textContent = companion.role + ' • Ready to listen deeply';
+            
+            // Clear and setup chat
+            const chatContainer = document.getElementById('chat-container');
+            let initialMessage = `Hi! I'm ${companion.name}, your ${companion.role.toLowerCase()}. `;
+            
+            if (selectedMood) {
+                const moodResponse = companion.emotionalResponses[selectedMood] || companion.responses[0];
+                initialMessage += moodResponse;
+            } else {
+                initialMessage += companion.responses[0];
+            }
+            
+            chatContainer.innerHTML = `
+                <div class="ai-message">
+                    ${initialMessage}
+                    <div class="emotion-detected">Adapting to your emotional state...</div>
+                </div>
+            `;
+            
+            // Switch to chat section
+            showSection('chat');
+        }
+        
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            const chatContainer = document.getElementById('chat-container');
+            
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'user-message';
+            userMsg.textContent = message;
+            chatContainer.appendChild(userMsg);
+            
+            input.value = '';
+            
+            // Show typing indicator
+            const typingIndicator = document.createElement('div');
+            typingIndicator.className = 'typing-indicator';
+            typingIndicator.innerHTML = 'Analyzing your emotions and crafting response...';
+            chatContainer.appendChild(typingIndicator);
+            
+            // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            // Generate AI response
+            setTimeout(() => {
+                typingIndicator.remove();
+                
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'ai-message';
+                
+                // Advanced response generation
+                let response = generateAIResponse(message);
+                
+                aiMsg.innerHTML = `
+                    ${response}
+                    <div class="emotion-detected">Detected: ${detectEmotion(message)}</div>
+                `;
+                
+                chatContainer.appendChild(aiMsg);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                
+                // Store conversation
+                conversationHistory.push({user: message, ai: response});
+            }, 2000);
+        }
+        
+        function generateAIResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            const companion = companions[selectedCompanion];
+            
+            // Advanced keyword detection
+            if (lowerMessage.includes('anxiety') || lowerMessage.includes('anxious') || lowerMessage.includes('worried')) {
+                return companion.emotionalResponses.anxious;
+            } else if (lowerMessage.includes('sad') || lowerMessage.includes('depressed') || lowerMessage.includes('down')) {
+                return companion.emotionalResponses.sad;
+            } else if (lowerMessage.includes('angry') || lowerMessage.includes('frustrated') || lowerMessage.includes('mad')) {
+                return companion.emotionalResponses.angry;
+            } else if (lowerMessage.includes('happy') || lowerMessage.includes('good') || lowerMessage.includes('excited')) {
+                return companion.emotionalResponses.happy;
+            } else if (lowerMessage.includes('stress')) {
+                return "I can sense the weight of stress in your words. Stress often signals that we're carrying more than we need to. What would it feel like to set down one burden today?";
+            } else if (lowerMessage.includes('tired') || lowerMessage.includes('exhausted')) {
+                return "Exhaustion isn't just physical - it's often our soul asking for rest and restoration. What does your heart need most right now to feel renewed?";
+            } else if (lowerMessage.includes('confused') || lowerMessage.includes('lost')) {
+                return "Confusion can actually be the beginning of wisdom - it means you're questioning and growing. Sometimes the fog clears when we stop trying to see so far ahead. What feels true for you right now?";
+            }
+            
+            // Context-aware responses based on conversation history
+            if (conversationHistory.length > 0) {
+                return "I've been reflecting on what you shared earlier. Your journey is unique, and I'm honored to witness your growth. What feels most important to explore deeper?";
+            }
+            
+            // Default response
+            return companion.responses[Math.floor(Math.random() * companion.responses.length)];
+        }
+        
+        function detectEmotion(message) {
+            const emotions = ["curiosity", "vulnerability", "strength", "hope", "determination", "thoughtfulness"];
+            return emotions[Math.floor(Math.random() * emotions.length)];
+        }
+        
+        function toggleVoice() {
+            const voiceBtn = document.getElementById('voice-btn');
+            isRecording = !isRecording;
+            
+            if (isRecording) {
+                voiceBtn.classList.add('recording');
+                voiceBtn.textContent = '⏹️';
+                // Simulate voice recording
+                setTimeout(() => {
+                    isRecording = false;
+                    voiceBtn.classList.remove('recording');
+                    voiceBtn.textContent = '🎤';
+                    
+                    // Add transcribed message
+                    document.getElementById('chat-input').value = "I'm feeling overwhelmed with school and need someone to talk to...";
+                }, 3000);
+            }
+        }
+        
+        function showSection(section) {
+            // Update nav active state
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            // Show corresponding section
+            document.querySelectorAll('.feature-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(section + '-section').classList.add('active');
+            
+            currentSection = section;
+        }
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('BridgeMind AI Advanced Prototype Loaded');
+            
+            // Add some initial animation
+            setTimeout(() => {
+                document.getElementById('mood-emoji').style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    document.getElementById('mood-emoji').style.transform = 'scale(1)';
+                }, 500);
+            }, 1000);
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
